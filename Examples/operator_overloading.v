@@ -25,7 +25,7 @@ fn (a Vec) / (b Vec) Vec {
 
 type Faktor = Vec | int
 
-// ACHTUNG eine Operator-Overloading ist hier leider
+// ACHTUNG ein Operator-Overloading ist hier leider
 // nicht möglich, da dies nur bei Structs und Type alias
 // zulässig ist (???)
 
