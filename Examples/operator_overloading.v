@@ -1,3 +1,4 @@
+// Beispiel aus der Dokumentation zu V
 struct Vec {
 	x int
 	y int
