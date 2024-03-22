@@ -24,5 +24,5 @@ fn main() {
 	left := Node{2, Empty{}, Empty{}}
 	right := Node{3, Empty{}, Node{4, Empty{}, Empty{}}}
 	tree := Node{5, left, right}
-	println(sum(tree)) // 2 + 3 + 4 + 5 = 14
+	println(sum(tree)) // ==> 2 + 3 + 4 + 5 = 14
 }
