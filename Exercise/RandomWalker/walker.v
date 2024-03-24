@@ -65,6 +65,8 @@ fn frame(mut app App) {
 	app.gg.begin()
 	app.walker.move()
 	app.draw()
+	// Option verhindert, dass der Context neu gezeichnet
+	// wird, aber jetzt wird der Background rot dargestellt
 	app.gg.end(how: .passthru)
 }
 
