@@ -50,7 +50,7 @@ fn main() {
 	app.gg = gg.new_context(
 		width: 600
 		height: 600
-		window_title: 'Polygons'
+		window_title: 'Random Walker'
 		frame_fn: frame
 		user_data: app
 	)
