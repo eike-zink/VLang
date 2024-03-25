@@ -2,27 +2,17 @@ import rand
 import gg
 import gx
 
-enum Directions {
-	left
-	right
-	up
-	down
-}
+const directions :=[
+  Vector{x: -2, y: 0},  // left
+  Vector{x: 2, y: 0},   // right
+  Vector{x: 0, y: 2},	// up
+  Vector{x: 0, y: -2}   // down
+]
 
-fn Directions.rand() Directions {
-	direction := rand.int_in_range(0, 4) or { 0 }
-	match direction {
-		0 { return .left }
-		1 { return .right }
-		2 { return .up }
-		else { return .down }
-	}
-}
+const speed := Vector{x: 2, y: 2}
 
 struct Walker {
-mut:
-	x int
-	y int
+	Vector
 }
 
 fn (walker Walker) str() string {
@@ -30,14 +20,10 @@ fn (walker Walker) str() string {
 }
 
 fn (mut walker Walker) move() {
-	direction := Directions.rand()
-	match direction {
-		.left { walker.x-- }
-		.right { walker.x++ }
-		.up { walker.y++ }
-		.down { walker.y-- }
-	}
+	new_direction := rand.element(directions) or { panic('no direction')}
+	walker.Vector = walker.Vector + (new_direction * speed)
 }
+
 
 struct App {
 mut:
@@ -50,7 +36,7 @@ fn main() {
 	app.gg = gg.new_context(
 		width: 600
 		height: 600
-		window_title: 'Polygons'
+		window_title: 'Random Walker'
 		frame_fn: frame
 		user_data: app
 	)
@@ -71,5 +57,5 @@ fn frame(mut app App) {
 }
 
 fn (app &App) draw() {
-	app.gg.draw_circle_filled(app.walker.x, app.walker.y, 5, gx.white)
+	app.gg.draw_circle_filled(app.walker.x, app.walker.y, 4, gx.rgba(255, 255, 120, 60))
 }
