@@ -63,8 +63,8 @@ fn main() {
 		user_data: app
 	)
 
-	app.cols = int(math.floor(width / spacing))
-	app.rows = int(math.floor(height / spacing))
+	app.cols = int(math.floor(app.gg.window.width / spacing))
+	app.rows = int(math.floor(app.gg.window.height / spacing))
 
 	app.walker = Walker{
 		x: app.cols / 2
@@ -73,17 +73,24 @@ fn main() {
 	app.gg.run()
 }
 
+
 fn frame(mut app App) {
-	app.gg.begin()
 	app.walker.move()
 	app.walker.save_position(mut app.positions)
 	app.draw()
-	app.gg.end()
 }
 
 fn (app &App) draw() {
+	app.gg.begin()
+	app.gg.end()
+
+	app.gg.begin()
 	for position in app.positions {
-		app.gg.draw_circle_filled(position.x * spacing, position.y * spacing, 4, gx.rgba(255,
-			255, 120, 120))
+		app.gg.draw_circle_filled(position.x * spacing, position.y * spacing, 4, gx.rgba(255,255, 120, 120))
 	}
+	app.gg.end(how: .passthru)
+	
+	app.gg.begin()
+	app.gg.show_fps()
+	app.gg.end(how: .passthru)
 }
