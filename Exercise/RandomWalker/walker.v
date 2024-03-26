@@ -3,25 +3,6 @@ import math
 import gg
 import gx
 
-const directions = [
-	Vector{
-		x: -1
-		y: 0
-	}, // left
-	Vector{
-		x: 1
-		y: 0
-	}, // right
-	Vector{
-		x: 0
-		y: 1
-	}, // up
-	Vector{
-		x: 0
-		y: -1
-	}, // down
-]
-
 const width = 400
 const height = 400
 
@@ -35,7 +16,7 @@ fn (walker Walker) str() string {
 	return '{x:${walker.x}, y:${walker.y}}'
 }
 
-fn (mut walker Walker) move() {
+fn (mut walker Walker) move(directions []Vector) {
 	new_direction := rand.element(directions) or { panic('no direction') }
 	walker.Vector = walker.Vector + new_direction
 }
@@ -51,6 +32,24 @@ mut:
 	cols      int
 	rows      int
 	positions []Vector
+}
+
+fn (app &App) valid_directions() []Vector {
+	mut valid_directions := []Vector{}
+	position := app.walker.Vector
+	if position.x > 0 {
+		valid_directions << Vector{x: -1, y: 0} // left
+	}
+	if position.x < app.cols {
+		valid_directions << Vector{x: 1, y: 0}  // right
+	}
+	if position.y > 0 {
+		valid_directions << Vector{x: 0, y: -1}  // down
+	}
+	if position.y < app.rows {
+		valid_directions << Vector{x: 0, y: 1} // up
+	}
+	return valid_directions
 }
 
 fn main() {
@@ -75,7 +74,7 @@ fn main() {
 
 
 fn frame(mut app App) {
-	app.walker.move()
+	app.walker.move(app.valid_directions())
 	app.walker.save_position(mut app.positions)
 	app.draw()
 }
