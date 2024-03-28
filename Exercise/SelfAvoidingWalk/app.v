@@ -7,7 +7,7 @@ import gx
 struct App {
 	width   int = 400
 	height  int = 400
-	spacing int = 5
+	spacing int = 20
 mut:
 	gg        &gg.Context = unsafe { nil }
 	walker    Walker
@@ -77,5 +77,5 @@ fn (mut app App) save_position() {
 fn (app App) draw_position(row int, col int, color gx.Color) {
 	x := (app.spacing / 2) + (row * app.spacing)
 	y := (app.spacing / 2) + (col * app.spacing)
-	app.gg.draw_circle_filled(x, y, 2, color)
+	app.gg.draw_circle_filled(x, y, 7, color)
 }
