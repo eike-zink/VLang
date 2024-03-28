@@ -4,7 +4,7 @@ import math
 import gg
 import gx
 
-const spacing int = 5
+const spacing = 5
 
 struct App {
 	width  int = 400
@@ -16,11 +16,11 @@ mut:
 }
 
 fn (app App) cols() int {
-	return int(math.floor(app.width / app.spacing))
+	return int(math.floor(app.width / spacing))
 }
 
 fn (app App) rows() int {
-	return int(math.floor(app.height / app.spacing))
+	return int(math.floor(app.height / spacing))
 }
 
 fn (app App) valid_directions() []Vector {
@@ -69,19 +69,21 @@ fn frame(mut app App) {
 	app.save_position()
 	app.gg.begin()
 	// Draw the previous positions
-	for row in 1 .. app.rows() {
-		for col in 1 .. app.cols() {
+	for row in 0 .. app.rows() {
+		for col in 0 .. app.cols() {
 			color := gx.rgba(255, 165, 0, u8(app.positions[row][col] + 100))
 			if app.positions[row][col] > 0 {
-				app.gg.draw_circle_filled(row * app.spacing, col * app.spacing, 2, color)
+				draw_position(app, row, col, color)
 			} 
 		}
 	}
 	// Draw current position
-	app.gg.draw_circle_filled(app.walker.x * app.spacing, app.walker.y * app.spacing, 2, gx.red)
+	draw_position(app, app.walker.x, app.walker.y, gx.red)
 	app.gg.end()
 }
 
-fn draw_position() {
-	// TODO
+fn draw_position(app App, row int, col int, color gx.Color) {
+	x := (spacing / 2) + (row * spacing)
+	y := (spacing / 2) + (col * spacing)
+	app.gg.draw_circle_filled(x, y, 2, color)
 }
