@@ -4,14 +4,15 @@ import math
 import gg
 import gx
 
+const spacing int = 5
+
 struct App {
 	width  int = 400
 	height int = 400
-	spacing int = 5
 mut:
 	gg        &gg.Context = unsafe { nil }
 	walker    Walker
-	positions [][]bool
+	positions [][]int
 }
 
 fn (app App) cols() int {
@@ -28,25 +29,25 @@ fn (app App) valid_directions() []Vector {
 	if position.x > 0 {
 		valid_directions << Vector{x: -1, y: 0} // left
 	}
-	if position.x < app.cols() {
+	if position.x < (app.cols() - 1) {
 		valid_directions << Vector{x: 1, y: 0}  // right
 	}
 	if position.y > 0 {
 		valid_directions << Vector{x: 0, y: -1}  // down
 	}
-	if position.y < app.rows() {
+	if position.y < (app.rows() - 1) {
 		valid_directions << Vector{x: 0, y: 1} // up
 	}
 	return valid_directions
 }
 
 fn (mut app App) save_position() {
-	app.positions[app.walker.x][app.walker.y] = true
+	app.positions[app.walker.x][app.walker.y] += 10
 }
 
 fn main() {
 	mut app := &App{
-		positions: [][]bool{len: 80, init: []bool{len: 80, init: false}}		
+		positions: [][]int{len: 80, init: []int{len: 80, init: 0}}		
 	}
 	app.gg = gg.new_context(
 		width: app.width
@@ -67,14 +68,20 @@ fn frame(mut app App) {
 	app.walker.move(app.valid_directions())
 	app.save_position()
 	app.gg.begin()
+	// Draw the previous positions
 	for row in 1 .. app.rows() {
 		for col in 1 .. app.cols() {
-			if app.positions[row][col] {
-				app.gg.draw_circle_filled(row * app.spacing, col * app.spacing, 2, gx.rgba(255,255, 120, 180))
-			} else {
-				app.gg.draw_circle_filled(row * app.spacing, col * app.spacing, 2, gx.rgba(255,255, 120, 80))
-			}
+			color := gx.rgba(255, 165, 0, u8(app.positions[row][col] + 100))
+			if app.positions[row][col] > 0 {
+				app.gg.draw_circle_filled(row * app.spacing, col * app.spacing, 2, color)
+			} 
 		}
 	}
+	// Draw current position
+	app.gg.draw_circle_filled(app.walker.x * app.spacing, app.walker.y * app.spacing, 2, gx.red)
 	app.gg.end()
+}
+
+fn draw_position() {
+	// TODO
 }
