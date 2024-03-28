@@ -1,7 +1,7 @@
 module main
 
-pub struct Vector {
-pub mut:
+struct Vector {
+mut:
 	x int
 	y int
 }
