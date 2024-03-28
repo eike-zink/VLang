@@ -18,7 +18,6 @@ fn (app App) cols() int {
 	return int(math.floor(app.width / app.spacing))
 }
 
-
 fn (app App) rows() int {
 	return int(math.floor(app.height / app.spacing))
 }
