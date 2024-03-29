@@ -4,7 +4,7 @@ import gg
 
 fn main() {
 	mut app := &App{
-		positions: [][]int{len: 80, init: []int{len: 80, init: 0}}
+		positions: []Vector{}
 	}
 	app.gg = gg.new_context(
 		width: app.width

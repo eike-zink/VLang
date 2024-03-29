@@ -11,6 +11,6 @@ fn (walker Walker) str() string {
 }
 
 fn (mut walker Walker) move(directions []Vector) {
-	new_direction := rand.element(directions) or { panic('no direction') }
+	new_direction := rand.element(directions) or { Vector{x: 0, y: 0} }
 	walker.Vector = walker.Vector + new_direction
 }
