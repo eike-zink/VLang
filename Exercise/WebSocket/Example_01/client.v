@@ -8,4 +8,4 @@ client.connect()!
 
 client.write_string('hi from client')!
 
-client.listen()!
+client.close()
